@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:47:38 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/02/10 18:42:07 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/05/16 21:53:33 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ typedef struct s_params
 int		parse_arguments(int argc, char *argv[], t_params *params);
 int		print_error(char *program_name);
 int		print_arguments(t_params *params);
-void	lock_mutexes(t_params *params, int id);
+void	lock_mutexes(t_params *params, t_coder *coder);
 void	unlock_mutexes(t_params *params, int id);
 int		init_mutexes(t_params *params);
 int		destroy_mutexes(t_params *params);
 void	*coder_thread(void *arg);
 int		init_coders(t_params *params);
-int		printfm(t_params params, const char *str, long timestamp,
-			int id);
+int		printfm(t_params params, const char *str, t_coder *coder);
 long	get_timestamp(t_params *params, struct timeval *tv);
 
 #endif

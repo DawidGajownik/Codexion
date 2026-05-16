@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:15:05 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/02/16 14:20:57 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/05/16 21:58:09 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void	compile(t_coder *coder, t_params *params)
 {
 	struct timeval	tv;
-	long			timestamp;
 	
-	lock_mutexes(params, coder->id);
-	timestamp = get_timestamp(params, &tv);
-	printfm(*params, "%ld %d is compiling...\n", timestamp, coder->id);
+	lock_mutexes(params, coder);
+	get_timestamp(params, &tv);
+	printfm(*params, "%ld %d is compiling\n", coder);
 	usleep(params->time_to_compile*1000);
 	coder->compiles_done++;
 	coder->last_compile_time = tv;
@@ -28,21 +27,13 @@ void	compile(t_coder *coder, t_params *params)
 
 void	debug(t_coder *coder, t_params *params)
 {
-	struct timeval	tv;
-	long			timestamp;
-
-	timestamp = get_timestamp(params, &tv);
-	printfm(*params, "%ld %d is debugging...\n", timestamp, coder->id);
+	printfm(*params, "%ld %d is debugging\n", coder);
 	usleep(params->time_to_debug*1000);
 }
 
 void	refactor(t_coder *coder, t_params *params)
 {
-	struct timeval	tv;
-	long			timestamp;
-
-	timestamp = get_timestamp(params, &tv);
-	printfm(*params, "%ld %d is refractoring...\n", timestamp, coder->id);
+	printfm(*params, "%ld %d is refactoring\n", coder);
 	usleep(params->time_to_refactor*1000);
 }
 
@@ -55,11 +46,11 @@ int	burned_out(t_coder *coder, t_params *params)
 	if (coder->last_compile_time.tv_sec == 0)
 		return(0);
 	timestamp = get_timestamp(params, &tv);
-	coder_timestamp = (coder->last_compile_time.tv_sec - params->time.tv_sec) * 1000000L
-		+ (coder->last_compile_time.tv_usec - params->time.tv_usec);
+	coder_timestamp = (coder->last_compile_time.tv_sec - params->time.tv_sec) * 1000
+		+ (coder->last_compile_time.tv_usec - params->time.tv_usec) / 1000;
 	if (timestamp - coder_timestamp >= params->time_to_burnout)
 	{
-		printfm(*params, "%ld %d is burned_out...\n", timestamp, coder->id);
+		printfm(*params, "%ld %d is burned_out\n", coder);
 		return(1);
 	}
 	return(0);

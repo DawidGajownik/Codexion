@@ -6,18 +6,21 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 15:34:51 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/02/10 18:41:44 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/05/16 21:53:08 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	printfm(t_params params, const char *str, long timestamp, int id)
+int	printfm(t_params params, const char *str, t_coder *coder)
 {
 	int	result;
+	long timestamp;
+	struct timeval tv;
 
+	timestamp = get_timestamp(&params, &tv);
 	pthread_mutex_lock(&(params.print_mutex));
-	result = printf(str, timestamp, id);
+	result = printf(str, timestamp, coder->id);
 	pthread_mutex_unlock(&(params.print_mutex));
 	return (result);
 }

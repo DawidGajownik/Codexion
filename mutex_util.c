@@ -6,40 +6,32 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 19:09:21 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/02/12 14:27:27 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/05/16 21:54:48 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	lock_mutexes(t_params *params, int id)
+void	lock_mutexes(t_params *params, t_coder *coder)
 {
 	int				left;
 	int				right;
-	long			timestamp;
-	struct timeval	tv;
-	static int		first;
 
-	first = 0;
-	left = id - 1;
-	right = id % params->number_of_coders;
-	timestamp = get_timestamp(params, &tv);
-	if (id % 2 != 0)
+	left = coder->id - 1;
+	right = coder->id % params->number_of_coders;
+	if (coder->id % 2 != 0)
 	{
 		pthread_mutex_lock(&params->mutex[left]);
-		printfm(*params, "%ld %d has taken a dongle l1\n", timestamp, id);
+		printfm(*params, "%ld %d has taken a dongle\n", coder);
 		pthread_mutex_lock(&params->mutex[right]);
-		printfm(*params, "%ld %d has taken a dongle l2\n", timestamp, id);
+		printfm(*params, "%ld %d has taken a dongle\n", coder);
 	}
 	else
 	{
-		if (first == 0)
-			usleep(10);
-		first = 1;
 		pthread_mutex_lock(&params->mutex[right]);
-		printfm(*params, "%ld %d has taken a dongle r1\n", timestamp, id);
+		printfm(*params, "%ld %d has taken a dongle\n", coder);
 		pthread_mutex_lock(&params->mutex[left]);
-		printfm(*params, "%ld %d has taken a dongle r2\n", timestamp, id);
+		printfm(*params, "%ld %d has taken a dongle\n", coder);
 	}
 }
 
