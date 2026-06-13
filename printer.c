@@ -6,22 +6,25 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 15:34:51 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/05/16 21:53:08 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/05/31 11:21:09 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	printfm(t_params params, const char *str, t_coder *coder)
+int	printfm(t_params *params, const char *str, t_coder *coder)
 {
 	int	result;
 	long timestamp;
 	struct timeval tv;
 
-	timestamp = get_timestamp(&params, &tv);
-	pthread_mutex_lock(&(params.print_mutex));
+	if (params->burned_out)
+		return (0);
+	timestamp = get_timestamp(params, &tv);
+	pthread_mutex_lock(&(params->print_mutex));
 	result = printf(str, timestamp, coder->id);
-	pthread_mutex_unlock(&(params.print_mutex));
+	if (!params->burned_out)
+		pthread_mutex_unlock(&(params->print_mutex));
 	return (result);
 }
 
@@ -46,6 +49,6 @@ int	print_error(char *program_name)
 	fprintf(stderr, "Usage: %s number_of_coders \
 time_to_burnout time_to_compile time_to_debug \
 time_to_refactor number_of_compiles_required \
-scheduler\n", program_name);
+dongle_cooldown scheduler\n", program_name);
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:47:38 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/05/16 21:53:33 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/06/01 17:42:59 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <stdbool.h>
+# include <limits.h>
 
 typedef enum c_scheduler
 {
@@ -49,8 +51,11 @@ typedef struct s_params
 	struct timeval	time;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	*mutex;
+	pthread_mutex_t	mutex_burned_out;
+	long			*mutex_time;
 	t_scheduler		scheduler;
 	t_coder			*coders;
+	bool			burned_out;
 }	t_params;
 
 int		parse_arguments(int argc, char *argv[], t_params *params);
@@ -62,7 +67,8 @@ int		init_mutexes(t_params *params);
 int		destroy_mutexes(t_params *params);
 void	*coder_thread(void *arg);
 int		init_coders(t_params *params);
-int		printfm(t_params params, const char *str, t_coder *coder);
+int		printfm(t_params *params, const char *str, t_coder *coder);
 long	get_timestamp(t_params *params, struct timeval *tv);
+int		burned_out(t_coder *coder, t_params *params);
 
 #endif
