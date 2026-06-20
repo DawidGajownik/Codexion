@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:47:31 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/05/17 15:09:33 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/06/20 20:08:12 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pthreads_join(t_params *params)
 
 int	do_stuff(t_params *params)
 {
-	int	i;
+	int		i;
 	t_coder	*coders;
 
 	i = -1;

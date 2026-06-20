@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:47:38 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/06/01 17:42:59 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/06/20 18:31:14 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,53 @@ typedef struct s_coder
 	pthread_t		thread;
 	struct timeval	last_compile_time;
 	struct s_params	*params;
-}	t_coder;
+	int				place;
+}t_coder;
+
+
+// typedef struct s_heap
+// {
+// 	int 	**data;
+// 	int		id;
+// }t_heap;
+
+
+// typedef struct s_dongle
+// {
+// 	int 	id;
+// 	int in_use;
+// 	long avilable_at;
+
+// 	pthread_mutex_t	mutex;
+// 	pthread_cond_t	cond;
+// 	t_heap queque;
+// 	struct s_sim sim;
+
+// }t_dongle;
+
+// typedef struct s_sim
+// {
+// 	t_params params;
+// 	long start_time;
+	
+// }t_sim;
+
+
 
 typedef struct s_params
 {
 	int				number_of_coders;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
+	long			time_to_burnout;
+	long			time_to_compile;
+	long			time_to_debug;
+	long			time_to_refactor;
 	int				number_of_compiles_required;
-	int				dongle_cooldown;
+	long			dongle_cooldown;
 	struct timeval	time;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	mutex_burned_out;
+	pthread_mutex_t	places_mutex;
 	long			*mutex_time;
 	t_scheduler		scheduler;
 	t_coder			*coders;

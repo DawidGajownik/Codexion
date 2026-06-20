@@ -6,7 +6,7 @@
 /*   By: dgajowni <dgajowni@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 15:34:51 by dgajowni          #+#    #+#             */
-/*   Updated: 2026/05/31 11:21:09 by dgajowni         ###   ########.fr       */
+/*   Updated: 2026/06/20 19:13:16 by dgajowni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	printfm(t_params *params, const char *str, t_coder *coder)
 		return (0);
 	timestamp = get_timestamp(params, &tv);
 	pthread_mutex_lock(&(params->print_mutex));
+	//result = 0 * coder->id * str[0] * timestamp;
 	result = printf(str, timestamp, coder->id);
 	if (!params->burned_out)
 		pthread_mutex_unlock(&(params->print_mutex));
@@ -31,10 +32,10 @@ int	printfm(t_params *params, const char *str, t_coder *coder)
 int	print_arguments(t_params *params)
 {
 	printf("Number of coders: %d\n", params->number_of_coders);
-	printf("Time to burnout: %d ms\n", params->time_to_burnout);
-	printf("Time to compile: %d ms\n", params->time_to_compile);
-	printf("Time to debug: %d ms\n", params->time_to_debug);
-	printf("Time to refactor: %d ms\n", params->time_to_refactor);
+	printf("Time to burnout: %ld ms\n", params->time_to_burnout);
+	printf("Time to compile: %ld ms\n", params->time_to_compile);
+	printf("Time to debug: %ld ms\n", params->time_to_debug);
+	printf("Time to refactor: %ld ms\n", params->time_to_refactor);
 	printf("Number of compiles required: %d\n",
 		params->number_of_compiles_required);
 	if (params->scheduler == EDF)
